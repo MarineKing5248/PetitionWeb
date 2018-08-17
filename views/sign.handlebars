@@ -1,0 +1,16 @@
+    <div class="Main">
+      <div class="petition">
+        <p class='pettxt'>Please sign our petition to make it a law that DOGOWNERS should always pick up the DOGSHITS from their own dogs in public area!!!</p>
+        <img src="cleanitup.jpg" alt='no dog shit'/>
+      </div>
+      <div class="Formdiv">
+        <form class="userdetails" method="post">
+          <label>First Name: <input type="text" name="first"></label>
+          <label>Last Name: <input type="text" name="last"></label>
+          <input id="sign" type="hidden" name="sign">
+          <canvas id="signcanvas" width="300" height="50"></canvas>
+          <button type="submit" name="submitbtn">Submit</button>
+          <input type="hidden" name="_csrf" value="{{csrfToken}}">
+        </form>
+      </div>
+    </div>
