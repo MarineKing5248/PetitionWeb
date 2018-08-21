@@ -1,13 +1,17 @@
 <div class="Main">
-  <div class="petition">
-    <p class='pettxt'>Welcome to our No Dog Shit petition website. Please log in:)</p>
+  <div class="login">
+    <img src="/cleanitup.jpg" alt='no dog shit'/>
+    <p class='logintext'>Please Sign In</p>
   </div>
   <div class="Formdiv">
-    <form class="login" method="post">
-      <label>Email: <input type="text" name="email"></label>
-      <label>Password: <input type="text" name="password"></label>
-      <button type="submit" name="submitbtn">Log In!</button>
+    <form class="logindetails" method="post">
+      <label>Email Address:<input type="text" name="emailid"></label>
+      <label>Password :<input type="password" name="pswd"></label>
+      <input type="hidden" name="_csrf" value="{{csrfToken}}">
+      <button type="submit" name="signinbtn">Log In</button>
     </form>
   </div>
-  <div><a href="./registration">New Registration</a></div>
+  <div class="Message">
+    {{>ErrorMsg}}
+  </div>
 </div>

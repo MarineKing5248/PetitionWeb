@@ -1,12 +1,19 @@
 <!DOCTYPE html>
-<div style="display: flex;
-    flex-direction: column;
-    align-items: center;">
-<h1>Signers</h1>
-<ul>
-{{#each signers}}
-    <li>{{first}}{{last}}</li>
-{{/each}}
-</ul>
-{{count}}
-</div>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Petition!</title>
+    <link rel="stylesheet" href="/style.css" type="text/css">
+  </head>
+  <body>
+    <div class="Main">
+      <div class="textdiv">
+        <img src="/cleanitup.jpg" alt='no dog shit'/>
+        <p>We demand the government to make it a law that DOGOWNERS should always pick up the DOGSHITS from their own dogs in public area.</p>
+      </div>
+      <div class="petitioner">
+        {{>petitioners}}
+      </div>
+    </div>
+  </body>
+</html>

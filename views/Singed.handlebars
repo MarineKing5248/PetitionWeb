@@ -1,0 +1,17 @@
+<div class="Main">
+    <div class="textdiv">
+      <img src="/cleanitup.jpg" alt='no dog shit'/>
+      <p class='pettxt'>Thank you for signing our petition!</p>
+    </div>
+    <div class="signdisplay">
+      <img class='signimg' src="{{signature}}" alt="sign">
+    </div>
+    <div class="Message">
+      <p><a href='/petition/signers'>See all {{numSigners}} Signers</a></p>
+      <p><a href='/profile/edit'>Edit your profile</a></p>
+      <form class="deletelink" method="post">
+        <p><a href='/petition/signed/delete'>Delete your Signature</a></p>
+        <input type="hidden" name="_csrf" value="{{csrfToken}}">
+      </form>
+    </div>
+</div>

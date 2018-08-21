@@ -6,10 +6,17 @@
     <form class="userdetails" method="post">
       <label>First Name: <input type="text" name="first"></label>
       <label>Last Name: <input type="text" name="last"></label>
-      <label>Email: <input type="text" name="email"></label>
-      <label>Password: <input type="text" name="password"></label>
-      <button type="submit" name="submitbtn">Registrate!</button>
+      <label>Email: <input type="text" name="emailid"></label>
+      <label>Password: <input type="password" name="password"></label>
+      <input type="hidden" name="_csrf" value="{{csrfToken}}">
+      <button type="submit" name="signupbtn">Registrate!</button>
     </form>
   </div>
   <div><a href="./login">Log In</a></div>
+</div>
+<div class="Message">
+  {{>ErrorMsg}}
+</div>
+<div class="loginlink">
+  <p><em>If you are already a member, <a href="/login">Please Login!</a></em></p>
 </div>
