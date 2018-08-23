@@ -1,30 +1,19 @@
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title>Petition!</title>
-    <link rel="stylesheet" href="/style.css" type="text/css">
-  </head>
-  <body>
-    <div class="Main">
-        <div class="petition">
-            <div class="petition">
-                <p class='pettxt'>Please sign our petition to make it a law that DOGOWNERS should always pick up the DOGSHITS from their own dogs in public area!!!</p>
-                <img src="cleanitup.jpg" alt='no dog shit'/>
-            </div>
+
+    <div class="main">
+        <div class="textmain">
+            <p class='pettxt'>Please sign our petition to make it a law that DOGOWNERS should always pick up the DOGSHITS from their own dogs in public area!!!</p>
+            <img src="cleanitup.jpg" alt='no dog shit'/>
         </div>
-        <div class="Message">
+        <div class="message">
             {{>ErrorMsg}}
         </div>
-        <div class="Formdiv">
+        <div class="formdiv">
             <form class="userdetails" method="post">
                 <input id="sign" type="hidden" name="sign">
-                <label for="signcanvas">Sign here:</label><canvas name="signcanvas" id="signcanvas" width="300" height="50"></canvas>
+                <label for="signcanvas">Please Sign here:</label><canvas name="signcanvas" id="signcanvas"></canvas>
                 <input type="hidden" name="_csrf" value="{{csrfToken}}">
-                <button type="submit" name="submitbtn">Submit</button>
+                <button type="submit" name="submitbtn" class="button">Submit</button>
             </form>
         </div>
     </div>
     <script src="script.js"></script>
-  </body>
-</html>

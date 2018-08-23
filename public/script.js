@@ -13,8 +13,8 @@ signCanvas.addEventListener(
     "mousemove",
     function(e) {
         e.stopPropagation();
-        mouseX = e.pageX - this.offsetLeft;
-        mouseY = e.pageY - this.offsetTop;
+        mouseX = e.offsetX;
+        mouseY = e.offsetY;
     },
     false
 );

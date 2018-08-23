@@ -1,17 +1,17 @@
-<div class="Main">
+<div class="main">
   <div class="login">
     <img src="/cleanitup.jpg" alt='no dog shit'/>
-    <p class='logintext'>Please Sign In</p>
+    <p class='logintext'>Please Log In</p>
   </div>
-  <div class="Formdiv">
-    <form class="logindetails" method="post">
-      <label>Email Address:<input type="text" name="emailid"></label>
-      <label>Password :<input type="password" name="pswd"></label>
+  <div class="formdiv">
+    <form class="userdetails" method="post">
+      <label>Email Address:<input type="text" name="emailid" class="write" class="write"></label>
+      <label>Password :<input type="password" name="pswd" class="write"></label>
       <input type="hidden" name="_csrf" value="{{csrfToken}}">
-      <button type="submit" name="signinbtn">Log In</button>
+      <button type="submit" name="signinbtn" class="button">Log In</button>
     </form>
   </div>
-  <div class="Message">
+  <div class="message">
     {{>ErrorMsg}}
   </div>
 </div>

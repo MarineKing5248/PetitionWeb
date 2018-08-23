@@ -6,21 +6,23 @@
         <title>Petition</title>
     </head>
     <body>
-
         <div class="maincontainer">
         {{#if header}}
-          {{>header}}
+           {{>header}}
         {{else}}
-          {{>logoutheader}}
+           {{>logoutheader}}
         {{/if}}
-
-        {{{body}}}
-
+            {{{body}}}
         </div>
-
-        {{>footer}}
-
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js">
     </body>
+    <footer>
+    <!-- <audio controls>
+       <source src="horse.mp3" type="audio/mpeg">
+    </audio> -->
+      <div id="footer-content">
+        &copy; 2018 Petition Signers. All rights reserved By XL
+      </div>
+    </footer>
     </script>
     <script src="/script.js"></script>
+</html>
