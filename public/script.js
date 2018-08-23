@@ -21,7 +21,7 @@ signCanvas.addEventListener(
 
 signCanvas.addEventListener(
     "mousedown",
-    function(e) {
+    function() {
         ctx.beginPath();
         ctx.moveTo(mouseX, mouseY);
         signCanvas.addEventListener("mousemove", drawSign, false);
@@ -31,7 +31,7 @@ signCanvas.addEventListener(
 
 signCanvas.addEventListener(
     "mouseup",
-    function(e) {
+    function() {
         signCanvas.removeEventListener("mousemove", drawSign, false);
     },
     false
