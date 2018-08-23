@@ -87,7 +87,7 @@ app.get("/petition/signed", checkforSigid, checkforUserId, function(
     const signId = request.session.signId;
     Promise.all([getNumUsers(), getSignature(signId)])
         .then(function(results) {
-            response.render("Signed", {
+            response.render("signed", {
                 numSigners: results[0].rows[0].count,
                 signature: results[1].rows[0].sign
             });
