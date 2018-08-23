@@ -20,7 +20,7 @@ if (process.env.secret) {
     const secrets = require("./secrets.json");
     secret = secrets.secret;
 }
-const ca = require("chalk-animation");
+// const ca = require("chalk-animation");
 const { checkPass, hashPass } = require("./PwdEncryption");
 const express = require("express");
 const csurf = require("csurf");
@@ -326,4 +326,7 @@ function checkforUserId(request, response, next) {
     }
 }
 /**********************************************************************/
-app.listen(process.env.PORT || 8080, () => ca.rainbow("I am listening,bro"));
+app.listen(
+    process.env.PORT || 8080
+    // , () => ca.rainbow("I am listening,bro")
+);
