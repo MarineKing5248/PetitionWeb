@@ -21,7 +21,7 @@ if (process.env.secret) {
     secret = secrets.secret;
 }
 // const ca = require("chalk-animation");
-const { checkPass, hashPass } = require("./PwdEncryption");
+const { checkPass, hashPass } = require("./pwdEncryption");
 const express = require("express");
 const csurf = require("csurf");
 const cookieSession = require("cookie-session");
