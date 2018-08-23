@@ -1,3 +1,4 @@
+
 DROP TABLE IF EXISTS user_profiles;
 DROP TABLE IF EXISTS signatures;
 DROP TABLE IF EXISTS users;
@@ -15,13 +16,11 @@ CREATE TABLE user_profiles (
     age INTEGER,
     city VARCHAR(255),
     url VARCHAR(255),
-    user_id INTEGER REFERENCES users(id)
+    user_id INTEGER REFERENCES users(id) UNIQUE
 );
 
 CREATE TABLE signatures (
     id SERIAL primary key,
     sign TEXT not null,
-    user_id INTEGER REFERENCES users(id)
+    user_id INTEGER REFERENCES users(id) UNIQUE
 );
-
---how to drop table with foreign key  u should drop the table using reference first, then drop the one being referenced

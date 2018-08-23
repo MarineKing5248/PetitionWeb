@@ -87,3 +87,94 @@ if u use handlebars, views folder is needed, generally has partials and layout f
 app.engine('handlebars', hb({
 defaultLayout: 'main'
 }))
+
+
+
+HOW  TO DEBUG
+
+app.post('/test', (req, res) => {
+console.log('Running POST / test', req.body)
+})
+
+after the debug, delete the console.log thing
+function getAllPokemon() {const q = 'SELECT * FROM pokemon'
+db.query(q).then(results =>
+results.rows
+).catch(err =>
+console.log('there was an error in getAllPokemon', err)
+)}
+
+function getSinglePokemon(pokemonId) {
+const q = 'SELECT * FROM pokemon WHERE id = $1'
+const params = [pokemonId]
+db.query(q).then(results =>
+results.rows[0]
+).catch(err =>
+console.log('there was an error in getSinglePokemon', err)
+)}
+
+arrow function if there is only one line inside of {}, u can take away {} and return
+
+function getSinglePokemonId(pokemonId) {
+const q = 'SELECT * FROM pokemon WHERE id = $1'
+const params = [pokemonId]
+db.query(q).then(results =>
+results.rows[0].id
+).catch(err =>
+console.log('there was an error in getSinglePokemon', err)
+)}
+
+
+how to hide your key!!!!!!!
+touch .gitignore
+
+inside .gitignore, write these:
+
+
+
+
+other things:
+CREATE TABLE xmen (
+id SERIAL PRIMARY KEY,
+name
+)
+
+1.    be sure to set port to process.env.PORT || 8080
+2.    be sure to set the dbUrl to process.env.DATABASE_URL
+3.    remember to push branch as <branch_name>:master
+4.    remember to add a start script to package.json
+5.    if your app isn't working in dev, it definitely won't work in prod
+6.    make sure that you aren't attempting to require a .gitignored file if you are in prod
+
+DEBUGGING
+0.Work slow. Test everthing along the way
+1.Prioritize Should we even fix the bug right now?
+  *using our limited time to prioritize fixing the buggies that matter
+  *most important bugs -- fixing bugs related to the functionality you've working on
+  less important bugs-bug that crashes your site but isn't related to the functionality you've working on
+  *least important bugs--everthing else
+2.read error messages
+3.Ask yourself 2 guiding questions:
+  *What was the expected behaviour of this piece of code?
+  *What actually happened?
+    +How do you know that's what actually happened?
+4.this is where the actual debugging happens
+5.ask your super friendly classmates
+6.ask your super friendly teachers
+7.push your code all the time to github
+
+
+var router = express.Router()
+
+router.get('/', (req, res) => {
+res.redirect('/intro')
+})
+
+router.get('/intro', (req, res) => {
+res.redirect('/intro', {
+
+})
+})
+
+
+still, everytime u log in the petition website u should check if the user signed .
