@@ -1,45 +1,31 @@
-let signCanvas = document.getElementById("signcanvas");
-let signInput = document.getElementById("sign");
-let ctx = signCanvas.getContext("2d");
-ctx.strokeStyle = "blue";
-ctx.lineCap = "round";
-ctx.lineJoin = "round";
-ctx.lineWidth = 2;
-let dataURL = "";
-let mouseX = 0,
-    mouseY = 0;
+const canvas = document.getElementById("signcanvas");
+if (canvas) {
+    const context = canvas.getContext("2d");
+    // const dataURL = canvas.toDataURL();
 
-signCanvas.addEventListener(
-    "mousemove",
-    function(e) {
-        e.stopPropagation();
-        mouseX = e.offsetX;
-        mouseY = e.offsetY;
-    },
-    false
-);
+    let inCanvas = false;
 
-signCanvas.addEventListener(
-    "mousedown",
-    function() {
-        ctx.beginPath();
-        ctx.moveTo(mouseX, mouseY);
-        signCanvas.addEventListener("mousemove", drawSign, false);
-    },
-    false
-);
+    // mousedown
 
-signCanvas.addEventListener(
-    "mouseup",
-    function() {
-        signCanvas.removeEventListener("mousemove", drawSign, false);
-    },
-    false
-);
+    canvas.addEventListener("mousedown", () => {
+        context.beginPath();
+        inCanvas = true;
+        // mousemove
+        canvas.addEventListener("mousemove", e => {
+            if (inCanvas) {
+                context.lineTo(e.offsetX, e.offsetY);
+                context.stroke();
+            }
+        });
+    });
 
-function drawSign() {
-    ctx.lineTo(mouseX, mouseY);
-    ctx.stroke();
-    dataURL = signCanvas.toDataURL();
-    signInput.value = dataURL;
+    // mouseup
+    canvas.addEventListener("mouseup", () => {
+        if (!inCanvas) {
+            return;
+        }
+        const dataURL = canvas.toDataURL();
+        $('input[name="sign"]').val(dataURL);
+        inCanvas = false;
+    });
 }

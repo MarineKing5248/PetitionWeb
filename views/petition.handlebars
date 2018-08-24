@@ -10,7 +10,8 @@
         <div class="formdiv">
             <form class="userdetails" method="post">
                 <input id="sign" type="hidden" name="sign">
-                <label for="signcanvas">Please Sign here:</label><canvas name="signcanvas" id="signcanvas"></canvas>
+                <p class="pettxt">Please Sign Below:</p>
+                <canvas name="signcanvas" id="signcanvas"></canvas>
                 <input type="hidden" name="_csrf" value="{{csrfToken}}">
                 <button type="submit" name="submitbtn" class="button">Submit</button>
             </form>
