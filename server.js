@@ -77,7 +77,11 @@ app.get("/petition", checkforSigned, checkforUserId, function(req, res) {
     res.render("petition");
 });
 
-app.get("/petition/signed", checkforSigid, checkforUserId, function(req, res) {
+app.get("/petition/signed", checkforSigid, checkforUserId, function(
+    req,
+    res,
+    next
+) {
     const signId = req.session.signId;
     Promise.all([getNumUsers(), getSignature(signId)])
         .then(function(results) {
@@ -106,7 +110,11 @@ app.get("/profile/edit", function(req, res) {
         });
 });
 
-app.get("/petition/signers", checkforSigid, checkforUserId, function(req, res) {
+app.get("/petition/signers", checkforSigid, checkforUserId, function(
+    req,
+    res,
+    next
+) {
     getUsersSigned()
         .then(function(petitioners) {
             res.render("signers", {
