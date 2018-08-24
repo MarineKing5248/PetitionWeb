@@ -91,7 +91,10 @@ app.get("/petition/signed", checkforSigid, checkforUserId, function(
             });
         })
         .catch(function(err) {
-            console.log("Error occured in db query to getusers and signatures:", err);
+            console.log(
+                "Error occured in db query to get users and signatures:",
+                err
+            );
             res.status(500);
         });
 });
