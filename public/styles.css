@@ -87,22 +87,28 @@ footer {
   color: #444;
   cursor: default;
 }
-.main,
-.bodypart {
-  position: absolute;
-  top: 45%;
+.main {
+  margin-top: 10vh;
   width: 100%;
   text-align: center;
   z-index: 10;
   font-style: italic;
-  transform: translateY(-50%);
+}
+.bodypart {
+  margin-top: 10vh;
+  width: 100%;
+  text-align: center;
+  z-index: 10;
+  font-style: italic;
   padding: 0 40px;
 }
 
 .textmain {
+  padding: 30px 100px;
   color: black;
-  font-size: 40px;
+  font-size: 30px;
   font-family: Georgia;
+  font-size: 40px;
 }
 .pettxt,
 .regtxt,
@@ -173,13 +179,6 @@ img {
   border: 1px solid red;
 }
 
-/* .hometxt {
-  margin-top: 15%;
-} */
-
-.Main {
-  margin-top: 10%;
-}
 .deletelink {
   color: blue;
   background: none;
@@ -198,4 +197,15 @@ img {
 .delelink:hover span,
 .delelink:focus span {
   color: black;
+}
+
+@media screen and (max-width: 320px) {
+  @viewport {
+    width: 320px;
+  }
+}
+@media screen and (min-width: 768px) and (max-width: 959px) {
+  @viewport {
+    width: 768px;
+  }
 }

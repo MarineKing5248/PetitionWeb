@@ -35,7 +35,7 @@ app.use(
     require("body-parser").urlencoded({
         extended: false
     })
-); // used in POST requests
+); // used in POST reqs
 app.use(
     cookieSession({
         secret: secret,
@@ -43,67 +43,61 @@ app.use(
     })
 );
 app.use(csurf());
-app.use((request, response, next) => {
-    response.locals.csrfToken = request.csrfToken();
+app.use((req, res, next) => {
+    res.locals.csrfToken = req.csrfToken();
     next();
 });
 app.engine("handlebars", hb({ defaultLayout: "main" }));
 /***********************************************************************/
 app.use(express.static("public"));
 
-app.get("/", function(request, response) {
-    response.render("home", { header: true }); //this part is amazing!!!learn this from roshnin
+app.get("/", function(req, res) {
+    res.render("home", { header: true }); //this part is amazing!!!learn this from roshnin
 });
 
 /*Route for calling registration page*/
-app.get("/register", function(request, response) {
-    response.render("register", { header: true });
+app.get("/register", function(req, res) {
+    res.render("register", { header: true });
 });
 /*Route for calling profile*/
-app.get("/profile", function(request, response) {
-    response.render("profile", { header: false });
+app.get("/profile", function(req, res) {
+    res.render("profile", { header: false });
 });
 
-app.get("/login", function(request, response) {
-    response.render("login", { header: true });
+app.get("/login", function(req, res) {
+    res.render("login", { header: true });
 });
 
-app.get("/logout", function(request, response) {
-    request.session = null;
-    response.redirect("/");
+app.get("/logout", function(req, res) {
+    req.session = null;
+    res.redirect("/");
 });
 
-app.get("/petition", checkforSigned, checkforUserId, function(
-    request,
-    response
-) {
-    response.render("petition");
+app.get("/petition", checkforSigned, checkforUserId, function(req, res) {
+    res.render("petition");
 });
 
-app.get("/petition/signed", checkforSigid, checkforUserId, function(
-    request,
-    response
-) {
-    const signId = request.session.signId;
+app.get("/petition/signed", checkforSigid, checkforUserId, function(req, res) {
+    const signId = req.session.signId;
     Promise.all([getNumUsers(), getSignature(signId)])
         .then(function(results) {
-            response.render("signed", {
+            res.render("signed", {
                 numSigners: results[0].rows[0].count,
                 signature: results[1].rows[0].sign
             });
         })
         .catch(function(err) {
             console.log("Error occured in db query to getusers and signatures:", err);
-            response.status(500);
+            res.status(500);
         });
 });
 
-app.get("/profile/edit", function(request, response) {
-    const userId = request.session.userId;
+app.get("/profile/edit", function(req, res) {
+    const userId = req.session.userId;
     console.log("signid", userId);
     getUserDetails(userId)
         .then(function(userdetails) {
-            response.render("profileEdit", {
+            res.render("profileEdit", {
                 userdetails: userdetails.rows[0]
             });
         })
@@ -112,13 +106,10 @@ app.get("/profile/edit", function(request, response) {
         });
 });
 
-app.get("/petition/signers", checkforSigid, checkforUserId, function(
-    request,
-    response
-) {
+app.get("/petition/signers", checkforSigid, checkforUserId, function(req, res) {
     getUsersSigned()
         .then(function(petitioners) {
-            response.render("signers", {
+            res.render("signers", {
                 petitioners: petitioners.rows,
                 cityflag: false
             });
@@ -129,13 +120,13 @@ app.get("/petition/signers", checkforSigid, checkforUserId, function(
 });
 
 app.get("/petition/signers/:city", checkforSigid, checkforUserId, function(
-    request,
-    response
+    req,
+    res
 ) {
-    let city = request.params.city;
+    let city = req.params.city;
     selectPetitioners(city)
         .then(function(petitioners) {
-            response.render("signers", {
+            res.render("signers", {
                 petitioners: petitioners.rows,
                 cityflag: true
             });
@@ -146,63 +137,58 @@ app.get("/petition/signers/:city", checkforSigid, checkforUserId, function(
 });
 
 /**************************************************************************/
-app.post("/register", (request, response) => {
-    if (
-        request.body.first &&
-    request.body.last &&
-    request.body.emailid &&
-    request.body.passwd
-    ) {
-        hashPass(request.body.passwd)
+app.post("/register", (req, res) => {
+    if (req.body.first && req.body.last && req.body.emailid && req.body.passwd) {
+        hashPass(req.body.passwd)
             .then(function(hashedpwd) {
                 return regUsers(
-                    request.body.first,
-                    request.body.last,
-                    request.body.emailid,
+                    req.body.first,
+                    req.body.last,
+                    req.body.emailid,
                     hashedpwd
                 );
             })
             .then(function(userid) {
-                request.session.userId = userid.rows[0].id;
-                response.redirect("/profile");
+                req.session.userId = userid.rows[0].id;
+                res.redirect("/profile");
             })
             .catch(function(err) {
                 console.log("Error occured in register:", err);
-                response.status(500);
+                res.status(500);
             });
     } else {
-        response.render("register", { err: true });
+        res.render("register", { err: true });
     }
 });
 /******************************************************************************/
-app.post("/login", (request, response) => {
+app.post("/login", (req, res) => {
     let idval;
-    if (request.body.emailid && request.body.pswd) {
-        checkEmail(request.body.emailid)
+    if (req.body.emailid && req.body.pswd) {
+        checkEmail(req.body.emailid)
             .then(function(results) {
                 if (results.rows.length > 0) {
                     idval = results.rows[0].id;
-                    return checkPass(request.body.pswd, results.rows[0].password);
+                    return checkPass(req.body.pswd, results.rows[0].password);
                 } else {
                     throw new Error();
                 }
             })
             .then(function(match) {
                 if (match) {
-                    request.session.userId = idval;
+                    req.session.userId = idval;
                     /*get id for the sign if already signed*/
                     getSignedUserId(idval)
                         .then(function(results) {
                             if (results.rows.length > 0) {
-                                request.session.signId = results.rows[0].id;
-                                response.redirect("/petition/signed");
+                                req.session.signId = results.rows[0].id;
+                                res.redirect("/petition/signed");
                             } else {
-                                response.redirect("/petition");
+                                res.redirect("/petition");
                             }
                         })
                         .catch(function(err) {
                             console.log("Error occured in login:", err);
-                            response.render("login", { err: true });
+                            res.render("login", { err: true });
                         });
                 } else {
                     throw new Error();
@@ -210,49 +196,49 @@ app.post("/login", (request, response) => {
             })
             .catch(function(err) {
                 console.log("Error occured in login:", err);
-                response.render("login", { err: true });
+                res.render("login", { err: true });
             });
     } else {
-        response.render("login", { err: true });
+        res.render("login", { err: true });
     }
 });
 /**********************************************************************/
-app.post("/profile", (request, response) => {
-    let url = request.body.homepage;
+app.post("/profile", (req, res) => {
+    let url = req.body.homepage;
     if (!url.startsWith("https://")) {
         url = "https://" + url;
     }
-    userProfile(request.body.age, request.body.city, url, request.session.userId)
+    userProfile(req.body.age, req.body.city, url, req.session.userId)
         .then(function() {
-            response.redirect("/petition");
+            res.redirect("/petition");
         })
         .catch(function(err) {
             console.log("Error occured in insert profile:", err);
-            response.render("profile", { err: true });
+            res.render("profile", { err: true });
         });
 });
 
 /**********************************************************************/
-app.post("/petition", (request, response) => {
-    if (request.body.sign) {
-        let userid = request.session.userId;
-        saveUserSigned(request.body.sign, userid)
+app.post("/petition", (req, res) => {
+    if (req.body.sign) {
+        let userid = req.session.userId;
+        saveUserSigned(req.body.sign, userid)
             .then(function(sign) {
-                request.session.signId = sign.rows[0].id;
-                response.redirect("/petition/signed");
+                req.session.signId = sign.rows[0].id;
+                res.redirect("/petition/signed");
             })
             .catch(function(err) {
                 console.log("Error occured in the petition signed:", err);
-                response.status(500);
+                res.status(500);
             });
     } else {
-        response.render("petition", { err: true });
+        res.render("petition", { err: true });
     }
 });
 /***************************************************************************/
-app.post("/profile/Edit", (request, response) => {
-    const userId = request.session.userId;
-    let { first, last, emailid, passwd, age, city, url } = request.body;
+app.post("/profile/Edit", (req, res) => {
+    const userId = req.session.userId;
+    let { first, last, emailid, passwd, age, city, url } = req.body;
     if (!url.startsWith("https://")) {
         url = "https://" + url;
     }
@@ -265,7 +251,7 @@ app.post("/profile/Edit", (request, response) => {
                     updateUserprofileTable(age, city, url, userId)
                 ])
                     .then(function() {
-                        response.redirect("/petition/signed");
+                        res.redirect("/petition/signed");
                     })
                     .catch(function(err) {
                         console.log("Error occured in db query:", err);
@@ -281,7 +267,7 @@ app.post("/profile/Edit", (request, response) => {
             updateUserprofileTable(age, city, url, userId)
         ])
             .then(function() {
-                response.redirect("/petition/signed");
+                res.redirect("/petition/signed");
             })
             .catch(function(err) {
                 console.log("Error occured in db query:", err);
@@ -289,12 +275,12 @@ app.post("/profile/Edit", (request, response) => {
     }
 });
 /***************************************************************************/
-app.post("/delete", (request, response) => {
-    const signId = request.session.signId;
+app.post("/delete", (req, res) => {
+    const signId = req.session.signId;
     deleteSignature(signId)
         .then(function() {
-            request.session.signId = null;
-            response.redirect("/petition");
+            req.session.signId = null;
+            res.redirect("/petition");
         })
         .catch(function(err) {
             console.log("Error occured on delete:", err);
@@ -302,25 +288,25 @@ app.post("/delete", (request, response) => {
 });
 
 /**********************************middle wares*****************************/
-function checkforSigid(request, response, next) {
-    if (!request.session.signId) {
-        response.redirect("/petition");
+function checkforSigid(req, res, next) {
+    if (!req.session.signId) {
+        res.redirect("/petition");
     } else {
         next();
     }
 }
 
-function checkforSigned(request, response, next) {
-    if (request.session.signId) {
-        response.redirect("/petition/signed");
+function checkforSigned(req, res, next) {
+    if (req.session.signId) {
+        res.redirect("/petition/signed");
     } else {
         next();
     }
 }
 
-function checkforUserId(request, response, next) {
-    if (!request.session.userId) {
-        response.redirect("/register");
+function checkforUserId(req, res, next) {
+    if (!req.session.userId) {
+        res.redirect("/register");
     } else {
         next();
     }
